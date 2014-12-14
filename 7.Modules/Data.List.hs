@@ -14,3 +14,7 @@ search needle haystack =
     in foldl (\acc x ->
         if take nlen x == needle then True else acc) False (tails haystack)
 
+--This function search is the same as Haskell's built-in, isInfixOf.
+--isInfixOf searches for a sublist within a list and 
+--returns True if the sublist we're looking for is somewhere inside the target list.
+
