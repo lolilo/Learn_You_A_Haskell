@@ -8,6 +8,7 @@ numUniques = length . nub
 --a function that's the equivalent of \xs -> length (nub xs).
 
 
+
 search :: (Eq a) => [a] -> [a] -> Bool
 search needle haystack = 
     let nlen = length needle
@@ -18,3 +19,5 @@ search needle haystack =
 --isInfixOf searches for a sublist within a list and 
 --returns True if the sublist we're looking for is somewhere inside the target list.
 
+on :: (b -> b -> c) -> (a -> b) -> a -> a -> c  
+f `on` g = \x y -> f (g x) (g y)  
