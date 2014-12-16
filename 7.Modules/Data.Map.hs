@@ -1,3 +1,6 @@
+--Do qualified import for Data.Map, since it exports functions that clash with Prelude and Data.List.
+import qualified Data.Map as Map
+
 phoneBook =   
     [("betty","555-2938")  
     ,("bonnie","452-2928")  
@@ -26,8 +29,6 @@ findKey' key = foldr (\(k,v) acc -> if key == k then Just v else acc) Nothing
 --Everyone knows it's a fold when they see the foldr call, 
 --but it takes some more thinking to read explicit recursion.
 
---Do qualified import for Data.Map, since it exports functions that clash with Prelude and Data.List.
---import qualified Data.Map as Map
 
 --Notice that when we were doing association lists with normal lists, 
 --the keys only had to be equatable (their type belonging to the Eq typeclass) 
@@ -38,4 +39,16 @@ findKey' key = foldr (\(k,v) acc -> if key == k then Just v else acc) Nothing
 
 fromList' :: (Ord k) => [(k,v)] -> Map.Map k v
 fromList' = foldr (\(k,v) acc -> Map.insert k v acc) Map.empty
+
+--fromListWith is a cool little function. 
+--It acts like fromList, only it doesn't discard duplicate keys 
+--but it uses a function supplied to it to decide what to do with them.
+
+phoneBookToMap :: (Ord k) => [(k, String)] -> Map.Map k String
+phoneBookToMap xs = Map.fromListWith (\number1 number2 -> number1 ++ ", " ++ number2) xs
+
+--We could also first make all the values in the association list singleton lists 
+--and then we can use ++ to combine the numbers.
+phoneBookToMap' :: (Ord k) => [(k,a)] -> Map.Map k [a]
+phoneBookToMap' xs = Map.fromListWith (++) $ map (\(k,v) -> (k,[v])) xs 
 
