@@ -44,4 +44,27 @@ instance Show TrafficLight where
     show Yellow = "Yellow light"  
     show Green = "Green light"  
 
+--instance Eq (Maybe m) where
+--    Just x == Just y = x == y
+--    Nothing == Nothing = True
+--    _ == _ = False
+
+--There's one problem with this though. Can you spot it? 
+--We use == on the contents of the Maybe but we have no assurance that 
+--what the Maybe contains can be used with Eq! 
+--That's why we have to modify our instance declaration like this:
+
+instance (Eq m) => Eq (Maybe m) where
+    Just x == Just y = x == y
+    Nothing == Nothing = True
+    _ == _ = False
+    
+--add a class constraint!
+--With this instance declaration, we say this: 
+--we want all types of the form Maybe m to be part of the Eq typeclass, 
+--but only those types where the m (so what's contained inside the Maybe) is also a part of Eq. 
+--This is actually how Haskell would derive the instance too.
+
+
+
 
