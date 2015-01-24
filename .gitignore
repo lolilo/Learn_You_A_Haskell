@@ -16,3 +16,4 @@ cabal.config
 *.aux
 *.hp
 *.txt
+.DS_store
